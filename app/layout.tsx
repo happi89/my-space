@@ -1,9 +1,13 @@
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AuthProvider from '../components/AuthProvider';
 import './globals.css';
-// import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 
-// const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+	subsets: ['latin'],
+	weight: '400',
+});
 
 export const metadata = {
 	title: 'My Space Clone',
@@ -16,13 +20,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang='en'>
-			{/* <body className={inter.className}>{children}</body> */}
-			<body className='flex flex-col min-h-screen'>
-				<Navbar />
-				{children}
-				<Footer />
-			</body>
-		</html>
+		<AuthProvider>
+			<html lang='en'>
+				{/* <body className={inter.className}>{children}</body> */}
+				<body className={`${poppins.className} flex flex-col min-h-screen`}>
+					<Navbar />
+					{children}
+					<Footer />
+				</body>
+			</html>
+		</AuthProvider>
 	);
 }

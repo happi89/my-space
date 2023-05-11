@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { SignInButton } from './buttons';
 
 export default function Navbar() {
 	return (
@@ -13,7 +14,7 @@ export default function Navbar() {
 				width={72}
 				alt='Logo'
 			/> */}
-			<ul className='flex gap-8'>
+			<ul className='flex items-center gap-8'>
 				<li className={hoverUnderline}>
 					<Link href='/about'>About</Link>
 				</li>
@@ -23,11 +24,14 @@ export default function Navbar() {
 				<li className={hoverUnderline}>
 					<Link href='/users'>Users</Link>
 				</li>
+				<li>
+					<SignInButton />
+				</li>
 			</ul>
 		</nav>
 	);
 }
 
 const nav =
-	'w-full px-16 flex justify-between items-center py-4 bg-[#214FC6] text-white';
+	'w-full px-20 flex justify-between items-center py-4 bg-[#214FC6] text-white';
 const hoverUnderline = 'hover:underline';
