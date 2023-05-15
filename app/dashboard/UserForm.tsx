@@ -124,11 +124,6 @@ export default function UserForm({ user }: any) {
 				</div>
 
 				<div className='mt-6 flex items-center justify-end gap-x-6'>
-					<button
-						type='button'
-						className='text-sm font-semibold leading-6 text-gray-900'>
-						Cancel
-					</button>
 					<button type='submit' className='btn btn-sm btn-primary text-white'>
 						Save
 					</button>

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import FollowButton from '../FollowButton';
-import { JSXElement } from 'solid-js';
 
 interface Props {
 	params: {

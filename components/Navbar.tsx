@@ -20,7 +20,7 @@ export default function Navbar() {
 					<Link href='/about'>About</Link>
 				</li>
 				<li className={hover}>
-					<Link href='/blogs'>Blogs</Link>
+					<Link href='/posts'>Posts</Link>
 				</li>
 				<li className={hover}>
 					<Link href='/users'>Users</Link>
