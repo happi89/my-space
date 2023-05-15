@@ -23,7 +23,8 @@ export default function RootLayout({
 		<AuthProvider>
 			<html lang='en'>
 				{/* <body className={inter.className}>{children}</body> */}
-				<body className={`${poppins.className} flex flex-col min-h-screen`}>
+				<body
+					className={`bg-[#f5f5f5] ${poppins.className} flex flex-col min-h-screen`}>
 					<Navbar />
 					{children}
 					<Footer />

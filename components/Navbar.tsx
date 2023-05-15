@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { SignInButton } from './buttons';
+import Hamburger from './Hamburger';
 
 export default function Navbar() {
 	return (
@@ -14,14 +14,15 @@ export default function Navbar() {
 				width={72}
 				alt='Logo'
 			/> */}
-			<ul className='flex items-center gap-8'>
-				<li className={hoverUnderline}>
+			<Hamburger />
+			<ul className='sm:flex items-center gap-10 hidden'>
+				<li className={hover}>
 					<Link href='/about'>About</Link>
 				</li>
-				<li className={hoverUnderline}>
+				<li className={hover}>
 					<Link href='/blogs'>Blogs</Link>
 				</li>
-				<li className={hoverUnderline}>
+				<li className={hover}>
 					<Link href='/users'>Users</Link>
 				</li>
 				<li>
@@ -33,5 +34,6 @@ export default function Navbar() {
 }
 
 const nav =
-	'w-full px-20 flex justify-between items-center py-4 bg-[#214FC6] text-white';
-const hoverUnderline = 'hover:underline';
+	'shadow-md w-full sm:px-8 md:px-20 px-4 flex justify-between items-center sm:py-4 py-2 bg-primary text-white';
+const hover =
+	'text-sm hover:scale-110 transition duration-300 transform origin-center';

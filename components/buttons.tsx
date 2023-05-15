@@ -8,22 +8,23 @@ export function SignInButton() {
 	const { data: session, status } = useSession();
 
 	if (status === 'loading') {
-		return <>...</>;
+		return <div className='py-1'>...</div>;
 	}
 
 	if (status === 'authenticated') {
 		return (
-			<>
+			<div className='sm:flex flex-col sm:flex-row items-start sm:items-center gap-6'>
 				<Link href='/dashboard'>
 					<Image
 						src={session.user?.image ?? '../public/mememan.jpeg'}
-						height={24}
-						width={24}
+						height={32}
+						width={32}
 						alt='user avatar'
+						className='rounded-sm'
 					/>
 				</Link>
 				<SignOutButton />
-			</>
+			</div>
 		);
 	}
 
@@ -42,4 +43,4 @@ export function SignOutButton() {
 	);
 }
 
-const signInButton = 'py-1 px-3 rounded-lg border border-1';
+const signInButton = 'btn btn-sm btn-secondary text-black';
