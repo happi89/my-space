@@ -24,7 +24,7 @@ export default function RootLayout({
 			<html lang='en'>
 				{/* <body className={inter.className}>{children}</body> */}
 				<body
-					className={`bg-[#f5f5f5] ${poppins.className} flex flex-col min-h-screen`}>
+					className={`bg-white ${poppins.className} flex flex-col min-h-screen`}>
 					<Navbar />
 					{children}
 					<Footer />

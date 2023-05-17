@@ -1,15 +1,17 @@
 interface Props {
-	type: string;
+	type?: string;
 	text: string;
-	icon: React.ReactNode;
+	icon: JSX.Element;
 }
 
-export default function Alert({ type, text, icon }: Props) {
+export default function Alert({ type = 'succces', text, icon }: Props) {
 	return (
-		<div className={`alert alert-${type} shadow-lg`}>
-			<div>
-				{icon}
-				<span>{text}</span>
+		<div className='toast toast-end'>
+			<div className={`alert alert-success alert-${type} shadow-md`}>
+				<div>
+					{icon}
+					<span>{text}</span>
+				</div>
 			</div>
 		</div>
 	);

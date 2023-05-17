@@ -20,7 +20,7 @@ export function SignInButton() {
 						height={32}
 						width={32}
 						alt='user avatar'
-						className='rounded-sm'
+						className='rounded-md brightness-100 hover:brightness-75 transition-all duration-300'
 					/>
 				</Link>
 				<SignOutButton />

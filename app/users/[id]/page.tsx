@@ -13,10 +13,22 @@ export default async function UserPage({ params }: Props) {
 		where: {
 			id: params.id,
 		},
+		include: {
+			following: true,
+			followers: true,
+		},
 	});
 
+	const numberOfPosts = await prisma.post.count({
+		where: {
+			authorId: user?.id,
+		},
+	});
+
+	console.log(numberOfPosts);
+
 	return (
-		<div className='min-w-[48rem] flex-grow justify-center pt-20 flex gap-16 bg-[#f5f5f5] text-black'>
+		<div className='min-w-[48rem] flex-grow justify-center pt-32 flex gap-16 bg-[#f5f5f5] text-black'>
 			<Image
 				src={user?.image ?? '/../public/mememan.jpeg'}
 				alt='User Profiler Image'
@@ -32,9 +44,14 @@ export default async function UserPage({ params }: Props) {
 					<FollowButton targetUserId={params?.id} />
 				</div>
 				<div className='flex gap-8 text-neutral'>
-					<span>0 Posts</span>
-					<span>0 Followers</span>
-					<span>0 Following</span>
+					<span>
+						{numberOfPosts} Post{numberOfPosts === 1 ? '' : 's'}
+					</span>
+					<span>
+						{user?.following.length} Follower
+						{user?.following.length! === 1 ? '' : 's'}
+					</span>
+					<span>{user?.followers.length} Following</span>
 				</div>
 				<p className='text-neutral'>Age: {user?.age ?? 'mystery'}</p>
 				<p className='max-w-prose'>{user?.bio}</p>

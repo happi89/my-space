@@ -1,11 +1,20 @@
 'use client';
+import Alert from '@/components/Alert';
 import { useRouter } from 'next/navigation';
+import { useTransition, useState, useEffect } from 'react';
+import SuccessSvg from '../../components/SuccessSvg';
+import useNotification from '@/hooks/useNotification';
 
 export default function UserForm({ user }: any) {
+	const [isPending, startTransition] = useTransition();
+	const [isFetching, setIsFetching] = useState(false);
+	const isMutating = isFetching || isPending;
 	const router = useRouter();
+	const { showNotification, setShowNotification } = useNotification();
 
 	const updateUser = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setIsFetching(true);
 
 		const formData = new FormData(e.currentTarget);
 
@@ -25,18 +34,36 @@ export default function UserForm({ user }: any) {
 		});
 
 		await res.json();
-		router.refresh();
+		setIsFetching(false);
+		startTransition(() => {
+			router.refresh();
+			return setShowNotification(true);
+		});
 	};
 
 	return (
 		<div className='flex-grow flex justify-center px-4 py-16'>
+			{showNotification ? (
+				<Alert
+					type='success'
+					text='Data Saved Successfully!'
+					icon={<SuccessSvg />}
+				/>
+			) : (
+				''
+			)}
 			<form className='max-w-[600px] justify-center' onSubmit={updateUser}>
 				<div className='space-y-12'>
 					<div className='border-b border-gray-900/10 pb-12'>
-						<h2 className='text-base font-semibold leading-7 text-gray-900'>
+						<h2 className='text-xl pb-2 font-semibold leading-7 text-gray-900'>
 							Profile
 						</h2>
-						<p className='mt-1 text-sm leading-6 text-gray-600'>
+						<div className='flex gap-8 text-neutral pb-2 text-sm'>
+							<span>0 Posts</span>
+							<span>{user?.following.length} Follower(s)</span>
+							<span>{user?.followers.length} Following</span>
+						</div>
+						<p className='text-md mt-1 leading-6 text-gray-600'>
 							This information will be displayed publicly so be careful what you
 							share.
 						</p>
@@ -49,7 +76,7 @@ export default function UserForm({ user }: any) {
 									Full Name
 								</label>
 								<div className='mt-2'>
-									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 max-w-md'>
+									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary max-w-md'>
 										<input
 											defaultValue={user?.name}
 											type='text'
@@ -69,7 +96,7 @@ export default function UserForm({ user }: any) {
 									Age
 								</label>
 								<div className='mt-2'>
-									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 max-w-md'>
+									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary max-w-md'>
 										<input
 											defaultValue={user?.age}
 											type='number'
@@ -89,7 +116,7 @@ export default function UserForm({ user }: any) {
 									Image Link
 								</label>
 								<div className='mt-2'>
-									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 max-w-md'>
+									<div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary max-w-md'>
 										<input
 											defaultValue={user?.image}
 											type='text'
@@ -116,7 +143,7 @@ export default function UserForm({ user }: any) {
 										defaultValue={user?.bio}
 										id='bio'
 										name='bio'
-										className='px-2 w-full block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm leading-6'></textarea>
+										className='px-2 w-full block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm leading-6'></textarea>
 								</div>
 							</div>
 						</div>
@@ -124,7 +151,11 @@ export default function UserForm({ user }: any) {
 				</div>
 
 				<div className='mt-6 flex items-center justify-end gap-x-6'>
-					<button type='submit' className='btn btn-sm btn-primary text-white'>
+					<button
+						type='submit'
+						className={`btn btn-sm btn-primary text-white ${
+							isMutating ? 'loading' : ''
+						}`}>
 						Save
 					</button>
 				</div>

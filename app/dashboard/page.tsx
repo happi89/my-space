@@ -13,6 +13,10 @@ export default async function DashboardPage() {
 		where: {
 			email: currentUserEmail,
 		},
+		include: {
+			followers: true,
+			following: true,
+		},
 	});
 
 	if (!session) {
@@ -21,7 +25,7 @@ export default async function DashboardPage() {
 	}
 
 	return (
-		<div className=''>
+		<div className='pt-8'>
 			<UserForm user={currentUser} />
 		</div>
 	);

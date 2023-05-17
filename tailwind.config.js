@@ -18,7 +18,7 @@ module.exports = {
 		themes: [
 			{
 				mytheme: {
-					primary: '#1E90FF',
+					primary: '#013191',
 
 					secondary: '#fff',
 
@@ -32,9 +32,9 @@ module.exports = {
 
 					success: '#81CFD1',
 
-					warning: '#EFD7BB',
+					warning: '#FFD400',
 
-					error: '#E58B8B',
+					error: '#f73131',
 				},
 			},
 		],

@@ -26,7 +26,7 @@ export default function Hamburger() {
 					<Link href='/about'>About</Link>
 				</li>
 				<li>
-					<Link href='/blogs'>Blogs</Link>
+					<Link href='/posts'>Posts</Link>
 				</li>
 				<li>
 					<Link href='/users'>Users</Link>

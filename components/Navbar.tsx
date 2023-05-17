@@ -34,6 +34,6 @@ export default function Navbar() {
 }
 
 const nav =
-	'shadow-md w-full sm:px-8 md:px-20 px-4 flex justify-between items-center sm:py-4 py-2 bg-primary text-white';
+	'shadow-md w-full sm:px-8 md:px-20 px-4 flex justify-between items-center sm:py-4 py-2 bg-primary text-white fixed top-0 left-0 z-10';
 const hover =
-	'text-sm hover:scale-110 transition duration-300 transform origin-center';
+	'text-sm hover:scale-125 transition duration-300 transform origin-center';

@@ -50,6 +50,7 @@ model User {
   accounts      Account[]
   following     Follows[] @relation("following")
   followers     Follows[] @relation("follower")
+  posts         Post[]     @relation("author")
   sessions      Session[]
 }
 
@@ -60,6 +61,15 @@ model Follows {
   following     User     @relation("following", fields: [followingId], references: [id])
 
   @@id([followerId, followingId])
+}
+
+model Post {
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  body          String     
+  authorId      String
+  author        User       @relation("author", fields: [authorId], references: [id])
 }
 
 model VerificationToken {

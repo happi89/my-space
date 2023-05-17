@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export default function AboutPage() {
 	return (
-		<main className='flex-grow pt-16 md:px-20 sm:px-12 px-4 bg-[#f5f5f5] text-black'>
+		<main className='flex-grow pt-32 md:px-20 sm:px-12 px-4 bg-[#f5f5f5] text-black'>
 			<h2 className='font-bold text-2xl'>About</h2>
 			<p className='mt-8 max-w-prose leading-8'>{aboutText}</p>
 		</main>
