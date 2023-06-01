@@ -29,7 +29,7 @@ export function SignInButton() {
 	}
 
 	return (
-		<button className={signInButton} onClick={() => signIn('github')}>
+		<button className={signInButton} onClick={() => signIn()}>
 			Sign In
 		</button>
 	);

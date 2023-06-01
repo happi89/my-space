@@ -27,7 +27,6 @@ export default function RootLayout({
 					className={`bg-white ${poppins.className} flex flex-col min-h-screen`}>
 					<Navbar />
 					{children}
-					<Footer />
 				</body>
 			</html>
 		</AuthProvider>

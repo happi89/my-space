@@ -9,8 +9,18 @@ export default async function Posts() {
 		orderBy: {
 			createdAt: 'desc',
 		},
-		take: 10,
+		take: 20,
+		include: {
+			_count: {
+				select: {
+					likes: true,
+					comments: true
+				},
+			},
+			likes: true,
+		},
 	});
+
 	const session = await getServerSession(authOptions);
 	const user = await prisma.user.findFirst({
 		where: {
@@ -18,9 +28,25 @@ export default async function Posts() {
 		},
 	});
 
+	// const fetchMorePosts = async () => {
+	// 	const data = await prisma.post
+	// 		.findMany({
+	// 			orderBy: {
+	// 				createdAt: 'desc',
+	// 			},
+	// 			skip: postCount,
+	// 			take: 10,
+	// 		})
+	// 		.then((posts) => setPosts((prevPosts) => [...prevPosts, ...posts]));
+
+	// 	setPostCount((count) => (count += 10));
+	// };
+
 	return (
 		<div className='flex-grow flex flex-col items-center py-24'>
-			{session?.user && <PostForm user={user!} />}
+			{session?.user && (
+				<PostForm edit={1 === 1 - 1} borderBottom={false} user={user!} />
+			)}
 			{posts.map((post, i) => {
 				return (
 					<>
@@ -33,10 +59,12 @@ export default async function Posts() {
 									? true
 									: false
 							}
+							showActions={user?.id === post?.authorId}
 						/>
 					</>
 				);
 			})}
+			{/* <button onClick={fetchMorePosts}>Show More</button> */}
 		</div>
 	);
 }

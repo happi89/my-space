@@ -4,7 +4,7 @@ interface Props {
 	icon: JSX.Element;
 }
 
-export default function Alert({ type = 'succces', text, icon }: Props) {
+export default function Alert({ type = 'success', text, icon }: Props) {
 	return (
 		<div className='toast toast-end'>
 			<div className={`alert alert-success alert-${type} shadow-md`}>

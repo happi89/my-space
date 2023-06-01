@@ -25,6 +25,9 @@ export default function Navbar() {
 				<li className={hover}>
 					<Link href='/users'>Users</Link>
 				</li>
+				<li className={hover}>
+					<Link href='/chat'>Chat</Link>
+				</li>
 				<li>
 					<SignInButton />
 				</li>
@@ -34,6 +37,6 @@ export default function Navbar() {
 }
 
 const nav =
-	'shadow-md w-full sm:px-8 md:px-20 px-4 flex justify-between items-center sm:py-4 py-2 bg-primary text-white fixed top-0 left-0 z-10';
+	'shadow-md w-full sm:px-8 md:px-20 px-4 flex justify-between items-center sm:py-4 py-2 bg-primary text-white';
 const hover =
 	'text-sm hover:scale-125 transition duration-300 transform origin-center';
