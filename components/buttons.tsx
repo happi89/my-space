@@ -43,4 +43,4 @@ export function SignOutButton() {
 	);
 }
 
-const signInButton = 'btn btn-sm btn-secondary text-black';
+const signInButton = 'btn btn-sm btn-secondary text-black hover:cursor-pointer';

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import SideBar from "./Sidebar";
 import Messages from "./[room]/Messages";
@@ -7,6 +8,10 @@ import Messages from "./[room]/Messages";
 export default async function Chat() {
 	let users = await prisma.user.findMany();
 	const session = await getServerSession(authOptions)
+
+	if(!session?.user) {
+		throw redirect('/api/auth/signin')
+	}
 
 	const user = await prisma.user.findFirst({
 		where: {

@@ -28,6 +28,7 @@ export default function Navbar() {
 				<li className={hover}>
 					<Link href='/chat'>Chat</Link>
 				</li>
+				
 				<li>
 					<SignInButton />
 				</li>
