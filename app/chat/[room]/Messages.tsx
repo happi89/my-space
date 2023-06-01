@@ -18,13 +18,18 @@ export const pusherClient = new PusherClient(
   }
 )
 
-export default function Messages({ roomId, user, prevMessages }: { roomId: string, user: User, prevMessages: MessageType[] }) {
+interface Props { 
+  roomId: string, 
+  user: User, 
+  prevMessages: MessageType[] 
+  chatRoomName: string;
+}
+
+export default function Messages({ roomId, user, prevMessages, chatRoomName }: Props) {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<MessageType[]>(prevMessages)
   const [disabled, setDisabled] = useState(false)
   const chatContainerRef = useRef<HTMLDivElement>(null);
-
-  console.log(messages, 'MESSAGES IN MEESSAGES COMPONENT')
 
   useEffect(() => {
     const channel = pusherClient.subscribe(roomId)
@@ -90,7 +95,7 @@ export default function Messages({ roomId, user, prevMessages }: { roomId: strin
   return (
     <div className="chat-area flex-1 flex flex-col">
       <div className="flex-3">
-        <h2 className="text-xl py-1 mb-8 border-b-2 border-gray-200">Chatting with <b>{ } user</b></h2>
+        <h2 className="text-xl py-1 mb-8 border-b-2 border-gray-200">Chatting with <b>{chatRoomName}</b></h2>
       </div>
       <div className="messages flex-1 overflow-auto max-h-[65vh]" ref={chatContainerRef}>
         {messages?.map((m, i) => {

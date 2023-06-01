@@ -22,13 +22,24 @@ export default async function Room({ params }: any) {
         id: user?.id as string,
       },
     })
-    .chatRooms();
+    .chatRooms({
+      include: {
+        users: true,
+        messages: true
+      }
+    });
 
     const messages = await prisma.message.findMany({
       where: {
         chatRoomId: params.room
       }
     })
+
+    const chatRoomName = await prisma.chatRoom.findFirst({
+      where: {
+        id: params.room
+      }
+    }).then((room: any) => room?.name!)
 
   return (
     <div className="main flex-1 flex flex-col">
@@ -38,7 +49,7 @@ export default async function Room({ params }: any) {
 
       <div className="flex-1 flex h-full">
         <SideBar users={users} user={user} contacts={contacts} highlighed={params?.room} />
-        <Messages roomId={params.room} user={user!} prevMessages={messages} />
+        <Messages roomId={params.room} user={user!} prevMessages={messages} chatRoomName={chatRoomName} />
       </div>
     </div>
     )

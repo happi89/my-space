@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from "@/lib/prisma";
+import { NextApiResponse } from 'next';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
   const { senderId, receiverIds } = await req.json();
+
+  if(receiverIds.length < 1 ) {
+    return res.status(400)
+  }
 
   const existingRoom = await prisma.chatRoom.findFirst({
     where: {

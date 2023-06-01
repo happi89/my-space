@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import SideBar from "./Sidebar";
+import Messages from "./[room]/Messages";
 
 export default async function Chat() {
 	let users = await prisma.user.findMany();
@@ -21,9 +22,12 @@ export default async function Chat() {
 				id: user?.id as string,
 			},
 		})
-		.chatRooms();
-
-		console.log(contacts, 'CONTACTS')
+		.chatRooms({
+			include: {
+				users: true,
+				messages: true
+			}
+		});
 
 	return (
 		<div className="main flex-1 flex flex-col">
@@ -37,7 +41,7 @@ export default async function Chat() {
 					<div className='w-full h-full flex flex-col gap-2 items-center justify-center mb-40'>
 						<h2 className='font-bold text-xl'>Your messages</h2>
 						<p>Send private messages to a friend or group</p>
-						<button className='btn btn-primary btn-sm text-white'>Send Message</button>
+						<p>Create new Chats in the sidebar!</p>
 					</div>
 				</div>
 			</div>

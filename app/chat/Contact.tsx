@@ -11,12 +11,11 @@ interface Props {
 export default function Contact({ image, date, text, name, highlighted}: Props) {
   return (
     <div className={`${highlighted ? 'bg-slate-200' : 'bg-white'} entry cursor-pointer transform hover:scale-105 duration-300 transition-transform mb-4 rounded p-4 flex shadow-md`}>
-      {/* <div className="flex-2">
+      <div className="flex-2">
         <div className="w-12 h-12 relative">
-          <Image className="w-12 h-12 rounded-full mx-auto" src={image} alt="chat-user" />
-          <span className="absolute w-4 h-4 bg-green-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
+          <Image width={50} height={50} className="w-12 h-12 rounded-full mx-auto" src={image!} alt="chat-user" />
         </div>
-      </div> */}
+      </div>
       <div className="flex-1 px-2">
         <div className="truncate w-32"><span className="text-gray-800">{name}</span></div>
         <div><small className="text-gray-600">{text}</small></div>

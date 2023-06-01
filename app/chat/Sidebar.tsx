@@ -10,6 +10,7 @@ import Link from "next/link"
 export default function SideBar({ users, user, contacts, highlighed }: any) {
   const [selected, setSelected] = useState([])
   const router = useRouter()
+  
 
   const options = users?.map((user: any) => {
     return {
@@ -61,7 +62,12 @@ export default function SideBar({ users, user, contacts, highlighed }: any) {
           contacts.map((c: any) => {
             return (
               <Link key={c?.id} href={`/chat/${c?.id}`}>
-                <Contact name={c?.name} highlighted={c?.id === highlighed ? true : false} />
+                <Contact 
+                image={c?.users[1]?.image} 
+                name={c?.name} 
+                highlighted={c?.id === highlighed ? true : false}  
+                text={c?.messages[c?.messages?.length-1]?.content}
+                />
               </Link>
             )
           })
