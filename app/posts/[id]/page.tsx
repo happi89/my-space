@@ -47,7 +47,7 @@ export default async function PostPage({ params }: Props) {
 				post={post}
 				hover={false}
 				borderBottom={true}
-				showActions={true}
+				showActions={	user?.id === post?.authorId}
 			/>
 
 			{session?.user && (

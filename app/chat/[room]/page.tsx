@@ -3,10 +3,16 @@ import Messages from "./Messages";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export default async function Room({ params }: any) {
   let users = await prisma.user.findMany();
   const session = await getServerSession(authOptions)
+
+
+  if (!session?.user) {
+    throw redirect('/api/auth/signin')
+  }
 
   const user = await prisma.user.findFirst({
     where: {

@@ -13,7 +13,7 @@ export default async function DashboardPage() {
 
 	const currentUserEmail = session?.user?.email!;
 
-	const currentUser = await prisma.user.findUnique({
+	const currentUser = await prisma.user.findFirst({
 		where: {
 			email: currentUserEmail,
 		},

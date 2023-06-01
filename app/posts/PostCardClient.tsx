@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -10,7 +10,7 @@ import {
 	Link as LinkIcon,
 } from 'lucide-react';
 import { MouseEvent, useState, useTransition } from 'react';
-import { User, Post, Like } from '@prisma/client';
+import { User, Post, Like, Session } from '@prisma/client';
 import useNotification from '@/hooks/useNotification';
 import Alert from '@/components/Alert';
 import SuccessSvg from '../../components/SuccessSvg';
@@ -35,6 +35,7 @@ interface Props {
 	borderBottom: string;
 	showActions: boolean;
 	type: Type;
+	session: boolean
 }
 
 export default function PostCardClient({
@@ -44,20 +45,21 @@ export default function PostCardClient({
 	borderBottom,
 	showActions,
 	type,
+	session
 }: Props) {
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
 	const { showNotification, setShowNotification } = useNotification();
 	const [notificationText, setNotificationText] = useState('');
 	const [userLiked, setUserLiked] = useState(
-		post?.likes?.some((like) => {
+		user && session && post?.likes?.some((like) => {
 			return like?.userId === user?.id;
 		})
 	);
+
+
 	const [likes, setLikes] = useState(post?._count?.likes || 0);
 	const [deleted, setDeleted] = useState(false);
-
-	console.log(type, 'TYPE IN POSTCARDCLIENT');
 
 	const handleUserClick = (e: MouseEvent) => {
 		e.stopPropagation();
@@ -66,11 +68,17 @@ export default function PostCardClient({
 
 	const handleEditClick = (e: MouseEvent) => {
 		e.stopPropagation();
+		if (!session) {
+			throw redirect('/api/auth/signin')
+		}
 		router.push(`/posts/edit/${post?.id}`);
 	};
 
 	const deletePost = async (e: MouseEvent) => {
 		e.stopPropagation();
+		if (!session) {
+			throw redirect('/api/auth/signin')
+		}
 		setDeleted(true);
 
 		const res = await fetch(`/api/posts?postId=${post?.id}`, {
@@ -87,6 +95,11 @@ export default function PostCardClient({
 
 	const likePost = async (e: MouseEvent) => {
 		e.stopPropagation();
+
+		if (!session) {
+			throw redirect('/api/auth/signin') 
+		}
+
 		setUserLiked(!userLiked);
 		userLiked
 			? setLikes((likes) => (likes -= 1))
@@ -113,16 +126,13 @@ export default function PostCardClient({
 		setShowNotification(true);
 	};
 
-	const bookmarkPost = async (e: MouseEvent) => {
-		e.stopPropagation();
-	};
-
-	const comment = (e: MouseEvent) => {
-		e.stopPropagation();
-	};
-
 	const deleteComment = async (e: MouseEvent) => {
 		e.stopPropagation();
+
+		if (!session) {
+			throw redirect('/api/auth/signin')
+		}
+		
 		setDeleted(true);
 
 		const res = await fetch(`/api/comments?commentId=${post?.id}`, {
@@ -190,8 +200,14 @@ export default function PostCardClient({
 					</span>
 					{type === Type.POST && (
 						<>
-							<span className='flex gap-2 items-bottom hover:text-blue-600 hover:scale-110'>
-								<MessageCircle onClick={comment} strokeWidth={2.5} size={18} />
+							<span onClick={(e) => {
+								e.stopPropagation();
+								if (!session) {
+									redirect('/api/auth/signin')
+								}
+								router.push(`/posts/${post?.id}`);
+							}} className='flex gap-2 items-bottom hover:text-blue-600 hover:scale-110'>
+								<MessageCircle strokeWidth={2.5} size={18} />
 								<p className='text-sm'>{post?._count?.comments || 0}</p>
 							</span>
 							<button

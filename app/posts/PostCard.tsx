@@ -1,4 +1,6 @@
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
 import PostCardClient from './PostCardClient';
 
 enum TYPE {
@@ -13,13 +15,13 @@ export default async function PostCard({
 	showActions,
 	type = TYPE.POST
 }: any) {
+	const session = await getServerSession(authOptions)!
+
 	const user = await prisma.user.findFirst({
 		where: {
 			id: post?.authorId,
 		},
 	});
-
-	console.log(type, 'TYPE IN POSTCARD')
 
 	return (
 		<PostCardClient
@@ -29,6 +31,7 @@ export default async function PostCard({
 			borderBottom={borderBottom}
 			showActions={showActions}
 			type={type}
+			session={session ? true : false}
 		/>
 	);
 }

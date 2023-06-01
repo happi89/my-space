@@ -1,4 +1,6 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import FollowButton from '../FollowButton';
 
@@ -9,7 +11,9 @@ interface Props {
 }
 
 export default async function UserPage({ params }: Props) {
-	const user = await prisma.user.findUnique({
+	const session = await getServerSession(authOptions)
+
+	const user = await prisma.user.findFirst	({
 		where: {
 			id: params.id,
 		},
@@ -25,8 +29,6 @@ export default async function UserPage({ params }: Props) {
 		},
 	});
 
-	console.log(numberOfPosts);
-
 	return (
 		<div className='min-w-[48rem] flex-grow justify-center pt-32 flex gap-16 bg-[#f5f5f5] text-black'>
 			<Image
@@ -41,7 +43,7 @@ export default async function UserPage({ params }: Props) {
 				<div className='flex gap-8'>
 					<h1 className='text-3xl'>{user?.name}</h1>
 					{/* @ts-expect-error Server Component */}
-					<FollowButton targetUserId={params?.id} />
+					{session?.user && <FollowButton targetUserId={params?.id} />}
 				</div>
 				<div className='flex gap-8 text-neutral'>
 					<span>
