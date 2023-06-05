@@ -53,7 +53,7 @@ export default async function PostPage({ params }: Props) {
 			{session?.user && (
 				<PostForm postId={params?.id} type={Type.COMMENT} edit={1 === 1 - 1} borderBottom={false} user={user!} />
 			)}
-
+			<p className='text-left my-2'>Comments</p>
 			{post?.comments.map((comment, i) => {
 				return (
 					<>
